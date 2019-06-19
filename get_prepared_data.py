@@ -14,10 +14,10 @@ def get_data():
 
 
 def get_prepared_data():
-    if isfile('train_XY.csv'):
-        train_XY = pd.read_csv('train_XY.csv')
-        validation_XY = pd.read_csv('validation_XY.csv')
-        test_XY = pd.read_csv('test_XY.csv')
+    if isfile('train_XY'):
+        train_XY = pd.read_csv('train_XY')
+        validation_XY = pd.read_csv('validation_XY')
+        test_XY = pd.read_csv('test_XY')
     else:
         data = get_data()
         data = data.iloc[:, :300]
