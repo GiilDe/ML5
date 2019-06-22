@@ -38,10 +38,6 @@ classifier = NN_classifier()
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(classifier.parameters(), lr=0.001, momentum=0.9)
 
-#trainloader = torch.utils.data.DataLoader(trainset, batch_size=4,
-#                                          shuffle=True, num_workers=2)
-
-N = len(train_X)
 
 
 for epoch in range(40):  # loop over the dataset multiple times
