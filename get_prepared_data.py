@@ -23,7 +23,6 @@ def get_prepared_data():
     else:
         print('\033[1m' + "PREPARING DATA..." + '\033[0m')
         data = get_data()
-        data = data.iloc[:, :300]
         data = to_numerical_data(data)
         train_X, train_Y, validation_X, validation_Y, test_X, test_Y = split_data(data)
         train_XY = X_Y_2_XY(train_X, train_Y)

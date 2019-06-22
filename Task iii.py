@@ -30,6 +30,11 @@ Y_to_split = pd.concat([train_Y, validation_Y])
 # scores_list = mc.get_winner(X_to_split, Y_to_split, test_X, test_Y)
 # print(scores_list)
 #
+RF = RandomForestClassifier(n_estimators=85)
+RF.fit(X_to_split, Y_to_split)
+print(accuracy_score(RF.predict(test_X), test_Y))
+
+
 classifiers = [('RF', RandomForestClassifier(n_estimators=85)),
                ('mlp', MLPClassifier(hidden_layer_sizes=[200, 74, 146, 180, 54], activation='tanh', verbose=True, max_iter=500, early_stopping=False)),
                ('mlp2', MLPClassifier(hidden_layer_sizes=[150, 80, 100], activation='tanh', verbose=True, max_iter=500, early_stopping=False)),
