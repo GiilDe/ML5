@@ -14,13 +14,15 @@ def get_data():
 
 
 def get_prepared_data():
-    if isfile('train_XY'):
-        train_XY = pd.read_csv('train_XY')
-        validation_XY = pd.read_csv('validation_XY')
-        test_XY = pd.read_csv('test_XY')
+    if isfile('train_XY.csv'):
+        print('\033[1m' + "LOADING DATA" + '\033[0m')
+        train_XY = pd.read_csv('train_XY.csv')
+        validation_XY = pd.read_csv('validation_XY.csv')
+        test_XY = pd.read_csv('test_XY.csv')
     else:
+        print('\033[1m' + "PREPARING DATA" + '\033[0m')
         data = get_data()
-        data = data.iloc[:, :300]
+        data = data.iloc
         data = to_numerical_data(data)
         train_X, train_Y, validation_X, validation_Y, test_X, test_Y = split_data(data)
         train_XY = X_Y_2_XY(train_X, train_Y)
@@ -30,9 +32,9 @@ def get_prepared_data():
         # train_XY = clean_and_correct_train_X(train_XY)
         train_XY, validation_XY, test_XY = scale_all(train_XY, validation_XY, test_XY)
         validation_XY, test_XY = impute_test_and_validation(train_XY, validation_XY, test_XY)
-        train_XY.to_csv('train_XY')
-        validation_XY.to_csv('validation_XY')
-        test_XY.to_csv('test_XY')
+        train_XY.to_csv('train_XY.csv')
+        validation_XY.to_csv('validation_XY.csv')
+        test_XY.to_csv('test_XY.csv')
         print('\033[1m' + "DATA SAVED" + '\033[0m')
     train_X, train_Y = XY_2_X_Y(train_XY)
     validation_X, validation_Y = XY_2_X_Y(validation_XY)
