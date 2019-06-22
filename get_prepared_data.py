@@ -15,10 +15,10 @@ def get_data():
 
 def get_prepared_data():
     if isfile('train_XY.csv'):
-        print('\033[1m' + "LOADING DATA" + '\033[0m')
         train_XY = pd.read_csv('train_XY.csv')
         validation_XY = pd.read_csv('validation_XY.csv')
         test_XY = pd.read_csv('test_XY.csv')
+        print('\033[1m' + "DATA LOADED" + '\033[0m')
     else:
         print('\033[1m' + "PREPARING DATA" + '\033[0m')
         data = get_data()
@@ -40,3 +40,6 @@ def get_prepared_data():
     validation_X, validation_Y = XY_2_X_Y(validation_XY)
     test_X, test_Y = XY_2_X_Y(test_XY)
     return train_X, train_Y, validation_X, validation_Y, test_X, test_Y
+
+def get_unlabeled_data():
+    data = pd.read_csv('ElectionsData.csv')

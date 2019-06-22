@@ -1,6 +1,6 @@
 from itertools import chain, combinations
 import pandas as pd
-from find_best_coalition.coalition_score import coalition_score
+from find_coalition.coalition_score import coalition_score
 from data_handling import X_Y_2_XY
 from get_prepared_data import get_prepared_data
 
