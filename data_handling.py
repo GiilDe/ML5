@@ -94,6 +94,12 @@ def to_numerical_data(data: DataFrame):
     return data_featues_one_hot
 
 
+def to_numerical_data_test(data: DataFrame):
+    # remove_bad_samples(data)
+    # convert_binary(data)
+    data_featues_one_hot = pd.get_dummies(data)
+    return data_featues_one_hot
+
 def chosen_features(data: DataFrame):
     np_data = data.to_numpy()
     clf = DecisionTreeClassifier()

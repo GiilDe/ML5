@@ -1,6 +1,8 @@
 from data_handling import to_numerical_data, split_data, scale_all, X_Y_2_XY, XY_2_X_Y
 from imputations import DistirbutionImputator
 from outliers_detection import DistirbutionOutlinersCleaner
+from data_handling import to_numerical_data, to_numerical_data_test, split_data, scale_all, X_Y_2_XY, XY_2_X_Y
+from imputations import impute_train_X, impute_test_and_validation
 import pandas as pd
 from os.path import isfile
 
@@ -12,6 +14,21 @@ def get_data():
                         'Avg_Residancy_Altitude', 'Yearly_ExpensesK', 'Weighted_education_rank',
                         'Number_of_valued_Kneset_members']]
     return data
+
+
+def get_data_test():
+    data = pd.read_csv('ElectionsData_Pred_Features.csv')
+    data = data.loc[:, ['Avg_environmental_importance', 'Avg_government_satisfaction',
+                        'Avg_education_importance', 'Most_Important_Issue', 'Avg_monthly_expense_on_pets_or_plants',
+                        'Avg_Residancy_Altitude', 'Yearly_ExpensesK', 'Weighted_education_rank',
+                        'Number_of_valued_Kneset_members']]
+    return data
+
+
+def get_prepared_data_test():
+    print('\033[1m' + "PREPARING DATA" + '\033[0m')
+    data = get_data_test()
+    data = to_numerical_data_test(data)
 
 
 def get_prepared_data():
