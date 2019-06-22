@@ -110,7 +110,7 @@ def chosen_features(data: DataFrame):
 
 
 class Scaler:
-    def __init__(self, train_XY):
+    def __init__(self):
         features_to_normalize = ['Yearly_ExpensesK', 'Weighted_education_rank', 'Number_of_valued_Kneset_members']
         features_to_standartize = ['Avg_environmental_importance', 'Avg_government_satisfaction',
                                    'Avg_education_importance', 'Avg_monthly_expense_on_pets_or_plants',

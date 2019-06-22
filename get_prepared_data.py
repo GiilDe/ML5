@@ -1,7 +1,7 @@
 from data_handling import to_numerical_data, split_data, scale_all, X_Y_2_XY, XY_2_X_Y
 from imputations import DistirbutionImputator
 from outliers_detection import DistirbutionOutlinersCleaner
-from data_handling import to_numerical_data, to_numerical_data_test, split_data, scale_all, X_Y_2_XY, XY_2_X_Y
+from data_handling import to_numerical_data, to_numerical_data_test, split_data, Scaler, X_Y_2_XY, XY_2_X_Y
 from imputations import impute_train_X, impute_test_and_validation
 import pandas as pd
 from os.path import isfile
@@ -69,4 +69,28 @@ def get_prepared_data():
 
 
 def get_unlabeled_data():
-    data = pd.read_csv('ElectionsData.csv')
+    if isfile('real_test_XY.csv'):
+        real_test_XY = pd.read_csv('real_test_XY.csv')
+        real_train_XY = pd.read_csv('real_train_XY.csv')
+        print('\033[1m' + "DATA LOADED" + '\033[0m')
+    else:
+        print('\033[1m' + "PREPARING DATA..." + '\033[0m')
+        real_train_XY = pd.read_csv('ElectionsData.csv')
+        real_test_XY = pd.read_csv('ElectionsData_Pred_Features')
+        cleaner = DistirbutionOutlinersCleaner()
+        cleaner.fit(real_train_XY)
+        train_XY = cleaner.clean_and_correct(real_train_XY, int(len(real_train_XY) / 20), 0)
+        imputer = DistirbutionImputator()
+        imputer.fit(real_train_XY)
+        real_train_XY = imputer.fill_nans(real_train_XY)
+        real_test_XY = imputer.fill_nans(real_test_XY)
+        scaler = Scaler()
+        scaler.fit(real_train_XY)
+        real_train_XY = scaler.scale(real_train_XY)
+        real_test_XY = scaler.scale(real_test_XY)
+
+        real_train_XY.to_csv('real_train_XY.csv', index=False)
+        real_test_XY.to_csv('real_test_XY.csv', index=False)
+        print('\033[1m' + "DATA SAVED" + '\033[0m')
+
+    return real_train_XY, real_test_XY
