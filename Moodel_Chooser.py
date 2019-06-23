@@ -8,7 +8,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_validate
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 import numpy as np
 from sklearn.datasets import load_iris
 from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score
@@ -18,22 +17,20 @@ from collections import Counter
 import ast
 from get_prepared_data import get_prepared_data
 
-
 class Model_Chooser:
     def __init__(self, classifiers_dict=None, score_measurement_for_find_best_params='accuracy', predict_proba=False):
         if classifiers_dict is None:
             if not predict_proba:
                 self.classifiers_dict = {  # key is classifier name, value is a list of tuples, where first val is parameter
                                            # name for the model and second val is a list of possible values for the parameter
-                    # 'KNeighborsClassifier': [('n_neighbors', list(range(1, 15, 2)))],  # predict_proba
+                    'KNeighborsClassifier': [('n_neighbors', list(range(1, 15, 2)))],  # predict_proba
                     'SVC': [('kernel', ['linear', 'poly', 'rbf', 'sigmoid']), ('gamma', ['scale'])],
-                     # 'DecisionTreeClassifier': [('min_samples_split ', list(range(2, 52, 5)))],  # predict_proba
-                    'RandomForestClassifier': [('n_estimators', list(range(5, 100, 20))),  # predict_proba
+                     'DecisionTreeClassifier': [('min_samples_split ', list(range(2, 52, 5)))],  # predict_proba
+                    'RandomForestClassifier': [('n_estimators', list(range(5, 20, 5))),  # predict_proba
                                                ('min_samples_split', list(range(2, 52, 5)))],
                     'GaussianNB': [],  # predict_proba
-                    # 'LinearDiscriminantAnalysis': [],
-                    # 'LogisticRegression': [('solver', ['lbfgs'])],  # predict_proba
-                    #  'QuadraticDiscriminantAnalysis': [],  # predict_proba
+                    'LogisticRegression': [('solver', ['lbfgs'])],  # predict_proba
+                     'QuadraticDiscriminantAnalysis': [],  # predict_proba
                     }
             else:
                 self.classifiers_dict = {  # key is classifier name, value is a list of tuples, where first val is parameter
@@ -42,8 +39,7 @@ class Model_Chooser:
                     'DecisionTreeClassifier': [('min_samples_split ', list(range(2, 52, 5)))],  # predict_proba
                     'RandomForestClassifier': [('n_estimators', list(range(5, 20, 5))),  # predict_proba
                                                ('min_samples_split', list(range(2, 52, 5)))],
-                    'GaussianNB': [],  # predict_proba,
-                    'LinearDiscriminantAnalysis': [],
+                    'GaussianNB': [],  # predict_proba
                     'LogisticRegression': [('solver', ['lbfgs'])],  # predict_proba
                     'QuadraticDiscriminantAnalysis': [],  # predict_proba
                 }
@@ -80,7 +76,7 @@ class Model_Chooser:
                     if isinstance(param_val, str):
                         param_val = '\'' + param_val + '\''
                     clf = eval(classifier + '(' + param_name + '=' + str(param_val) + ')')
-                    score = np.average(cross_validate(clf, X, Y, scoring=score_measure, cv=3)['test_score'])
+                    score = np.average(cross_validate(clf, X, Y, scoring=score_measure, cv='warn')['test_score'])
                     if score > best_score:
                         best_score = score
                         best_param = param_val
@@ -99,7 +95,7 @@ class Model_Chooser:
                             second_param_val = '\'' + second_param_val + '\''
                         clf = eval(classifier + '(' + first_param_name + '=' + str(first_param_val) + ', ' +
                                    second_param_name + '=' + str(second_param_val) + ')')
-                        score = np.average(cross_validate(clf, X, Y, cv=3, scoring='accuracy')['test_score'])
+                        score = np.average(cross_validate(clf, X, Y, cv='warn')['test_score'])
                         if score > best_score:
                             best_score = score
                             best_first_param = first_param_val
@@ -111,7 +107,9 @@ class Model_Chooser:
         return self.classifiers_params_dict
 
     def get_winner(self, train_X, train_Y, test_X, test_Y, score_measure_func=None):
-        scores_list = []
+        best_score = float('-inf')
+        best_classifier = None
+        best_param_list = []
         for classifier, param_list in self.classifiers_params_dict.items():
             clf = self.create_classifier(classifier, param_list)
             clf.fit(train_X, train_Y)
@@ -120,6 +118,8 @@ class Model_Chooser:
                 score = score_measure_func(prediction, test_Y)
             else:
                 score = accuracy_score(prediction, test_Y)
-            scores_list.append((score, classifier, param_list))
-        scores_list.sort(key=lambda x: x[0], reverse=True)
-        return scores_list
+            if score > best_score:
+                best_score = score
+                best_classifier = classifier
+                best_param_list = param_list
+        return best_classifier, best_param_list, best_score
