@@ -11,3 +11,4 @@ def division_of_votes_score(prediction, test_Y):
     prediction_counter_counts = np.array([x[1] for x in prediction_counter])
     test_Y_counter_counts = np.array([x[1] for x in test_Y_counter])
     return np.linalg.norm(prediction_counter_counts - test_Y_counter_counts, ord=1)
+

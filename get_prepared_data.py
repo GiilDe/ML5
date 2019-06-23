@@ -25,12 +25,6 @@ def get_data_test():
     return data
 
 
-def get_prepared_data_test():
-    print('\033[1m' + "PREPARING DATA" + '\033[0m')
-    data = get_data_test()
-    data = to_numerical_data_test(data)
-
-
 def get_prepared_data():
     if isfile('train_XY.csv'):
         train_XY = pd.read_csv('train_XY.csv')
