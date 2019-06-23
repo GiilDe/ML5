@@ -76,7 +76,7 @@ def get_unlabeled_data():
     else:
         print('\033[1m' + "PREPARING DATA..." + '\033[0m')
         real_train_XY = pd.read_csv('ElectionsData.csv')
-        real_test_XY = pd.read_csv('ElectionsData_Pred_Features')
+        real_test_XY = pd.read_csv('ElectionsData_Pred_Features.csv')
         cleaner = DistirbutionOutlinersCleaner()
         cleaner.fit(real_train_XY)
         train_XY = cleaner.clean_and_correct(real_train_XY, int(len(real_train_XY) / 20), 0)

@@ -21,7 +21,6 @@ train_Y = train_Y.type(dtype=torch.long)
 # Y_hat = mlp.predict(validation_X)
 # accuracy = accuracy_score(validation_Y, Y_hat)
 
-[200, 74, 146, 180, 54]
 
 
 class NN_classifier(torch.nn.Module):
@@ -31,23 +30,28 @@ class NN_classifier(torch.nn.Module):
                   nn.Linear(16, 200),
                   nn.BatchNorm1d(200),
                   nn.Dropout(0.1),
-                  nn.ReLU(),
+                  # nn.ReLU(),
+                  nn.Tanh(),
                   nn.Linear(200, 74),
                   nn.BatchNorm1d(74),
                   nn.Dropout(0.1),
-                  nn.ReLU(),
+                  #nn.ReLU(),
+                  nn.Tanh(),
                   nn.Linear(74, 146),
                   nn.BatchNorm1d(146),
                   nn.Dropout(0.1),
-                  nn.ReLU(),
+                  # nn.ReLU(),
+                  nn.Tanh(),
                   nn.Linear(146, 180),
                   nn.BatchNorm1d(180),
                   nn.Dropout(0.1),
-                  nn.ReLU(),
+            # nn.ReLU(),
+            nn.Tanh(),
                   nn.Linear(180, 54),
                   nn.BatchNorm1d(54),
                   nn.Dropout(0.1),
-                  nn.ReLU(),
+            # nn.ReLU(),
+            nn.Tanh(),
                   nn.Linear(54, 13),
                   nn.Dropout(0.1),
                  ]
@@ -67,13 +71,14 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(classifier.parameters(), lr=0.001)
 
 
+
 for epoch in range(70):  # loop over the dataset multiple times
 
     running_loss = 0.0
     for i in range(0, len(train_X), 5):
 
         # get the inputs; data is a list of [inputs, labels]
-        classifier.train()
+        #classifier.train()
 
         inputs = train_X[i:i + 5, :]
         labels = train_Y[i:i + 5]
@@ -103,13 +108,7 @@ for epoch in range(70):  # loop over the dataset multiple times
         accuracy = torch.sum(y_hat == validation_Y).item() / len(validation_X)
         print("validation accuracy: " + str(accuracy) + "\n")
 
-classifier.eval()
-with torch.no_grad():
-    Y_hat = classifier.forward(validation_X)
-    y_hat = torch.argmax(Y_hat, dim=1)
 
-    accuracy = torch.sum(y_hat == validation_Y).item() / len(validation_X)
-    print("validation accuracy: " + str(accuracy) + "\n")
 
 
 

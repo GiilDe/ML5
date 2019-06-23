@@ -16,9 +16,7 @@ def powerset(iterable):
     return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
 
 
-train_X, train_Y, validation_X, validation_Y, test_X, test_Y = get_prepared_data()
-X_to_split = pd.concat([train_X, validation_X])
-Y_to_split = pd.concat([train_Y, validation_Y])
+
 
 # print(big_enough_coalition([0, 1, 2, 3]))
 # print(coalition_score([0, 1, 2, 3], X_Y_2_XY(test_X, test_Y)))
@@ -41,5 +39,9 @@ def best_option_ever():
     return best_coalition, best_coalition_score
 
 
-print(best_option_ever())
+if __name__ == 'best_option':
+    train_X, train_Y, validation_X, validation_Y, test_X, test_Y = get_prepared_data()
+    X_to_split = pd.concat([train_X, validation_X])
+    Y_to_split = pd.concat([train_Y, validation_Y])
+    print(best_option_ever())
 
