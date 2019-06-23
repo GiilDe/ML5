@@ -122,4 +122,5 @@ class Model_Chooser:
                 best_score = score
                 best_classifier = classifier
                 best_param_list = param_list
+                print("3!")
         return best_classifier, best_param_list, best_score

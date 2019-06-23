@@ -8,3 +8,4 @@ abrf = pickle.load(open('model', 'r'))
 tran_XY, test_X = get_unlabeled_data()
 _, test_Y = XY_2_X_Y(pd.read_csv('for test check'))
 
+abrf.
