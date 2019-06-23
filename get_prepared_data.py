@@ -70,27 +70,30 @@ def get_prepared_data():
 
 def get_unlabeled_data():
     if isfile('real_test_XY.csv'):
-        real_test_XY = pd.read_csv('real_test_XY.csv')
+        real_test_X = pd.read_csv('real_test_X.csv')
         real_train_XY = pd.read_csv('real_train_XY.csv')
         print('\033[1m' + "DATA LOADED" + '\033[0m')
     else:
         print('\033[1m' + "PREPARING DATA..." + '\033[0m')
-        real_train_XY = pd.read_csv('ElectionsData.csv')
-        real_test_XY = pd.read_csv('ElectionsData_Pred_Features')
+        real_train_XY = pd.read_csv('ElectionsData for test check.csv')
+        real_test_X = pd.read_csv('ElectionsData_Pred_Features for test check.csv')
+        real_train_XY = to_numerical_data(real_train_XY)
+        real_test_X = to_numerical_data_test(real_test_X)
         cleaner = DistirbutionOutlinersCleaner()
         cleaner.fit(real_train_XY)
-        train_XY = cleaner.clean_and_correct(real_train_XY, int(len(real_train_XY) / 20), 0)
+        real_train_XY = cleaner.clean_and_correct(real_train_XY, int(len(real_train_XY) / 20), 0)
         imputer = DistirbutionImputator()
         imputer.fit(real_train_XY)
         real_train_XY = imputer.fill_nans(real_train_XY)
-        real_test_XY = imputer.fill_nans(real_test_XY)
+        real_test_X = imputer.fill_nans(real_test_X, data_is_with_label_column=False)
         scaler = Scaler()
-        scaler.fit(real_train_XY)
-        real_train_XY = scaler.scale(real_train_XY)
-        real_test_XY = scaler.scale(real_test_XY)
-
+        real_train_X, real_train_Y = XY_2_X_Y(real_train_XY)
+        scaler.fit(real_train_X)
+        scaler.scale(real_train_X)
+        scaler.scale(real_test_X)
+        real_train_XY = X_Y_2_XY(real_train_X, real_train_Y)
         real_train_XY.to_csv('real_train_XY.csv', index=False)
-        real_test_XY.to_csv('real_test_XY.csv', index=False)
+        real_test_X.to_csv('real_test_X.csv', index=False)
         print('\033[1m' + "DATA SAVED" + '\033[0m')
 
-    return real_train_XY, real_test_XY
+    return real_train_XY, real_test_X

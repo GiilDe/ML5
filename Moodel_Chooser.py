@@ -17,7 +17,7 @@ import pandas as pd
 from collections import Counter
 import ast
 from get_prepared_data import get_prepared_data
-from MatrixForest import MatrixForest
+
 
 class Model_Chooser:
     def __init__(self, classifiers_dict=None, score_measurement_for_find_best_params='accuracy', predict_proba=False):
@@ -32,7 +32,6 @@ class Model_Chooser:
                                                ('min_samples_split', list(range(2, 52, 5)))],
                     'GaussianNB': [],  # predict_proba
                     # 'LinearDiscriminantAnalysis': [],
-                    # 'MatrixForest': [('num_matrix', np.arange(0, 50, 5)), ('h', np.linspace(0.0001, 1, 20))],
                     # 'LogisticRegression': [('solver', ['lbfgs'])],  # predict_proba
                     #  'QuadraticDiscriminantAnalysis': [],  # predict_proba
                     }

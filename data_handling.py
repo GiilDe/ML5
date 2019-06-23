@@ -221,7 +221,7 @@ def plot_vote_to_features(data: DataFrame):
 
 
 def scale_all(train_XY, validation_XY, test_XY):
-    scaler = Scaler(train_XY)
+    scaler = Scaler()
     scaler.fit(train_XY)
     scaler.scale(train_XY)
     scaler.scale(validation_XY)
