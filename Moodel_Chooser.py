@@ -23,14 +23,14 @@ class Model_Chooser:
             if not predict_proba:
                 self.classifiers_dict = {  # key is classifier name, value is a list of tuples, where first val is parameter
                                            # name for the model and second val is a list of possible values for the parameter
-                    'KNeighborsClassifier': [('n_neighbors', list(range(1, 15, 2)))],  # predict_proba
-                    'SVC': [('kernel', ['linear', 'poly', 'rbf', 'sigmoid']), ('gamma', ['scale'])],
-                     'DecisionTreeClassifier': [('min_samples_split ', list(range(2, 52, 5)))],  # predict_proba
-                    'RandomForestClassifier': [('n_estimators', list(range(5, 20, 5))),  # predict_proba
-                                               ('min_samples_split', list(range(2, 52, 5)))],
-                    'GaussianNB': [],  # predict_proba
-                    'LogisticRegression': [('solver', ['lbfgs'])],  # predict_proba
-                     'QuadraticDiscriminantAnalysis': [],  # predict_proba
+                    # 'KNeighborsClassifier': [('n_neighbors', list(range(1, 15, 2)))],  # predict_proba
+                    # 'SVC': [('kernel', ['linear', 'poly', 'rbf', 'sigmoid']), ('gamma', ['scale'])],
+                     # 'DecisionTreeClassifier': [('min_samples_split ', list(range(2, 52, 5)))],  # predict_proba
+                    'RandomForestClassifier': [('criterion', ['gini', 'entropy']),  # predict_proba
+                                               ('max_depth ', list(range(10, 80, 5)))],
+                    # 'GaussianNB': [],  # predict_proba
+                    # 'LogisticRegression': [('solver', ['lbfgs'])],  # predict_proba
+                    #  'QuadraticDiscriminantAnalysis': [],  # predict_proba
                     }
             else:
                 self.classifiers_dict = {  # key is classifier name, value is a list of tuples, where first val is parameter
