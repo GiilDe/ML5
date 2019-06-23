@@ -75,12 +75,12 @@ def get_unlabeled_data(load=False):
         print('\033[1m' + "DATA LOADED" + '\033[0m')
     else:
         print('\033[1m' + "PREPARING DATA..." + '\033[0m')
-        real_train_XY = pd.read_csv('ElectionsData for check test.csv')
+        real_train_XY = pd.read_csv('ElectionsData.csv')
         real_train_XY = real_train_XY.loc[:, ['Vote', 'Avg_environmental_importance', 'Avg_government_satisfaction',
                         'Avg_education_importance', 'Most_Important_Issue', 'Avg_monthly_expense_on_pets_or_plants',
                         'Avg_Residancy_Altitude', 'Yearly_ExpensesK', 'Weighted_education_rank',
                         'Number_of_valued_Kneset_members']]
-        real_test_X = pd.read_csv('ElectionsData_Pred_Features for check test.csv')
+        real_test_X = pd.read_csv('ElectionsData_Pred_Features.csv')
         real_test_X = real_test_X.loc[:, ['Avg_environmental_importance', 'Avg_government_satisfaction',
                         'Avg_education_importance', 'Most_Important_Issue', 'Avg_monthly_expense_on_pets_or_plants',
                         'Avg_Residancy_Altitude', 'Yearly_ExpensesK', 'Weighted_education_rank',
