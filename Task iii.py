@@ -10,8 +10,8 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.ensemble import AdaBoostClassifier
 import pickle as pk
 import data_handling
-import pandas as pd
 from party_num_to_name import parties_dict
+
 
 model = RandomForestClassifier(n_estimators=85)
 ad = AdaBoostClassifier(model)
